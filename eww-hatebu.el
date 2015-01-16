@@ -38,17 +38,19 @@
 
 (defconst eww-hatebu--endpoint
   "http://api.b.st-hatena.com/entry.count")
-(defvar eww-hatebu--count 0)
+(defvar eww-hatebu--count nil)
 
 (defvar eww-hatebu-mode-line
   '(:propertize
-    (:eval (concat "[HB:" eww-hatebu--count "]"))
+    (:eval (when eww-hatebu--count
+             (concat "[HB:" eww-hatebu--count "]")))
     face eww-hatebu-bookmarks))
 
 (defun eww-hatebu--callback (_status)
   (goto-char (point-min))
   (when (re-search-forward "\r?\n\r?\n" nil t)
-    (setq eww-hatebu--count (buffer-substring-no-properties (point) (point-max)))
+    (let ((bookmarks (buffer-substring-no-properties (point) (point-max))))
+      (setq eww-hatebu--count bookmarks))
     (force-mode-line-update)))
 
 (defun eww-hatebu--get-bookmarks ()
