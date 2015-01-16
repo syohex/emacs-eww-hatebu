@@ -53,7 +53,8 @@
 
 (defun eww-hatebu--get-bookmarks ()
   (let ((url-request-method "GET")
-        (query-param (concat "?url=" (url-hexify-string (eww-current-url)))))
+        (query-param (concat "?url=" (url-hexify-string (eww-current-url))))
+        (url-show-status nil))
     (url-retrieve (concat eww-hatebu--endpoint query-param) 'eww-hatebu--callback)))
 
 (defun eww-hatebu--setup-mode-line ()
